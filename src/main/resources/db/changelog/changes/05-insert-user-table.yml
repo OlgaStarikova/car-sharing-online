@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-user-table
+      author: Olya Starykova
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: email
+                  value: 'Admin@gmail.com'
+              - column:
+                  name: password
+                  value: '$2a$10$T0bqs8oNbxEB2n5jjWaN4.aB28xVGvxpDFpeArWktCozfCeeBK07i'
+              - column:
+                  name: first_name
+                  value: 'Admin'
+              - column:
+                  name: last_name
+                  value: 'Root'
+              - column:
+                  name: shipping_address
+                  value: ''
+              - column:
+                  name: is_deleted
+                  value: 0
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: email
+                  value: 'User@gmail.com'
+              - column:
+                  name: password
+                  value: '$2a$10$wP5LvzrMt/523Pn5cFmTM.ItSiT2WIiaDP6s7IHMneHosQsMAX0fS'
+              - column:
+                  name: first_name
+                  value: 'User'
+              - column:
+                  name: last_name
+                  value: 'Common'
+              - column:
+                  name: shipping_address
+                  value: ''
+              - column:
+                  name: is_deleted
+                  value: 0
