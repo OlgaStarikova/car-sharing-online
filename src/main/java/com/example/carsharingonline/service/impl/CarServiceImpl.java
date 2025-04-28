@@ -2,6 +2,7 @@ package com.example.carsharingonline.service.impl;
 
 import com.example.carsharingonline.dto.CarDto;
 import com.example.carsharingonline.dto.CreateCarRequestDto;
+import com.example.carsharingonline.exception.CarNotAvailableException;
 import com.example.carsharingonline.exception.EntityNotFoundException;
 import com.example.carsharingonline.mapper.CarMapper;
 import com.example.carsharingonline.model.Car;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class CarServiceImpl implements CarService {
+    private static final int INVENTORY_VALUE_AVAILABLE = 1;
     private final CarRepository carRepository;
     private final CarMapper carMapper;
 
@@ -54,5 +56,23 @@ public class CarServiceImpl implements CarService {
         carRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find car by id " + id));
         return carMapper.toDto(carRepository.save(car));
+    }
+
+    @Override
+    public void updateCarInventory(Long id, int changeValue) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find car by id " + id));
+        car.setInventory(car.getInventory() + changeValue);
+        carRepository.save(car);
+    }
+
+    @Override
+    public Car checkCarAvailability(Long id) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find car by id " + id));
+        if (car.getInventory() != INVENTORY_VALUE_AVAILABLE) {
+            throw new CarNotAvailableException("This car is not available");
+        }
+        return car;
     }
 }
