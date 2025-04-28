@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-car-table
+      id: create-rental-table
       author: Olya Starykova
       changes:
         - createTable:
-            tableName: cars
+            tableName: rentals
             columns:
               - column:
                   name: id
@@ -14,29 +14,33 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: model
-                  type: varchar(25)
+                  name: rental_date
+                  type: datetime
                   constraints:
                     nullable: false
               - column:
-                  name: brand
-                  type: varchar(25)
+                  name: return_date
+                  type: datetime
                   constraints:
                     nullable: false
               - column:
-                  name: car_body_type
-                  type: enum('SEDAN', 'SUV', 'HATCHBACK', 'UNIVERSAL')
+                  name: actual_return_date
+                  type: datetime
+              - column:
+                  name: car_id
+                  type: bigint
                   constraints:
+                    foreignKeyName: fk_rentals_cars
+                    referencedTableName: cars
+                    referencedColumnNames: id
                     nullable: false
               - column:
-                  name: inventory
-                  type: int
+                  name: user_id
+                  type: bigint
                   constraints:
-                    nullable: false
-              - column:
-                  name: dayly_fee
-                  type: decimal(10,2)
-                  constraints:
+                    foreignKeyName: fk_rentals_users
+                    referencedTableName: users
+                    referencedColumnNames: id
                     nullable: false
               - column:
                   name: is_deleted

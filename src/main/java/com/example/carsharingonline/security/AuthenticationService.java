@@ -2,6 +2,7 @@ package com.example.carsharingonline.security;
 
 import com.example.carsharingonline.dto.UserLoginRequestDto;
 import com.example.carsharingonline.dto.UserLoginResponseDto;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,5 +21,13 @@ public class AuthenticationService {
         );
         String token = jwtUtil.generateToken(requestDto.email());
         return new UserLoginResponseDto(token);
+    }
+
+    public Optional<Long> getCurrentUserId() {
+        return SecurityUtil.getCurrentUserId();
+    }
+
+    public static boolean hasRole(String role) {
+        return SecurityUtil.hasRole(role);
     }
 }

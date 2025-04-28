@@ -49,10 +49,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/auth/**", "/error",
+                                .requestMatchers("/auth/**", "/error","/cars/**",
                                         "/swagger-ui/**", "/v3/api-docs/**", "/index.html")
                                 .permitAll()
-                                .anyRequest()
+                                .requestMatchers("/admin/**", "/user/**")
                                 .authenticated()
                 )
                 .httpBasic(withDefaults())

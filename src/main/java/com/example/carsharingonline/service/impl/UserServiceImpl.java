@@ -2,6 +2,7 @@ package com.example.carsharingonline.service.impl;
 
 import com.example.carsharingonline.dto.UserRegistrationRequestDto;
 import com.example.carsharingonline.dto.UserResponseDto;
+import com.example.carsharingonline.exception.EntityNotFoundException;
 import com.example.carsharingonline.exception.RegistrationException;
 import com.example.carsharingonline.mapper.UserMapper;
 import com.example.carsharingonline.model.Role;
@@ -34,5 +35,10 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Set.of(roleRepository.getByRole(Role.RoleName.USER)));
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
+    }
+
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new EntityNotFoundException("User was not found for Id = " + userId + ""));
     }
 }

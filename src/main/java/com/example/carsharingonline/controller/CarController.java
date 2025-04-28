@@ -19,35 +19,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Car management", description = "Endpoints for managing cars")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/cars")
 public class CarController {
     private final CarService carService;
 
-    @GetMapping
+    @GetMapping("/cars")
     @Operation(summary = "Get a list of cars", description = "Get a list of all available cars."
             + "Params(optional): page = page number, size = count of cars in one page,"
-            + " namefield = field for sorting. Available for registered users.")
+            + " namefield = field for sorting. Available for all.")
     public List<CarDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
         return carService.findAll(pageable);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/cars/{id}")
     @Operation(summary = "Get the car by Id", description = "Get the car by Id"
-            + "Params: id = Id of the car. Available for registered users.")
-    @PreAuthorize("hasAuthority('USER')")
-    public CarDto getCarById(@PathVariable Long id) {
+            + "Params: id = Id of the car. Available for all.")
+   public CarDto getCarById(@PathVariable Long id) {
         return carService.findById(id);
     }
 
-
-    @PostMapping
+    @PostMapping("/admin/cars")
     @Operation(summary = "Create a new car", description = "Create a new car. "
             + "Available for admins.")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -56,7 +52,7 @@ public class CarController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/cars/{id}")
     @Operation(summary = "Delete the car", description = "Delete the car by Id."
             + "Params: id = Id of the car. Available for admins.")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -64,7 +60,7 @@ public class CarController {
         carService.deleteCar(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/cars/{id}")
     @Operation(summary = "Update the car", description = "Update the car by Id."
             + "Params: id = Id of the car. Available for admins.")
     @PreAuthorize("hasAuthority('ADMIN')")

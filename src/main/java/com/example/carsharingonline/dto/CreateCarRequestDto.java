@@ -12,6 +12,6 @@ public record CreateCarRequestDto(
         @NotBlank
         String carBodyType,
         @Min(0)
-        BigDecimal dailyFee
+        BigDecimal daylyFee
 ) {
 }

@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/changes/06-insert-role-table.yml
   - include:
       file: db/changelog/changes/07-insert-user-role-table.yml
+  - include:
+      file: db/changelog/changes/08-create-rental-table.yml
