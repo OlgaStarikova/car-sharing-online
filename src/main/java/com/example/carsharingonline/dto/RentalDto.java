@@ -1,13 +1,13 @@
 package com.example.carsharingonline.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Schema(description = "Rental response DTO")
 public record RentalDto(
-        LocalDateTime rentalDate,
-        LocalDateTime returnDate,
-        LocalDateTime actualReturnDate,
+        LocalDate rentalDate,
+        LocalDate returnDate,
+        LocalDate actualReturnDate,
         CarDto carDto
 ) {
 }

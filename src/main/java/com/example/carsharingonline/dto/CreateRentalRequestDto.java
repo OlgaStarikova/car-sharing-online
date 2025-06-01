@@ -3,15 +3,15 @@ package com.example.carsharingonline.dto;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record CreateRentalRequestDto(
         @NotNull
         @FutureOrPresent
-        LocalDateTime rentalDate,
+        LocalDate rentalDate,
         @NotNull
         @FutureOrPresent
-        LocalDateTime returnDate,
+        LocalDate returnDate,
         @Min(0)
         Long carId
 ) {

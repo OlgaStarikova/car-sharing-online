@@ -15,5 +15,7 @@ public interface RentalService {
     RentalDto closeRental(Long id, ReturnRentalRequestDto requestDto);
 
     List<RentalDto> findByUserIdAndActive(Long userId, Boolean isActive, Pageable pageable);
+
+    void checkOverdueRentals();
 }
 
