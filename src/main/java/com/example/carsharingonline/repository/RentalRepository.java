@@ -1,6 +1,8 @@
 package com.example.carsharingonline.repository;
 
 import com.example.carsharingonline.model.Rental;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,4 +22,6 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     Page<Rental> findRentalsByActualReturnDateIsNull(Pageable pageable);
 
     Optional<Rental> findRentalByIdAndActualReturnDateIsNull(Long userId);
+
+    List<Rental> findRentalsByRentalDateBeforeAndActualReturnDateIsNull(LocalDate dateOverdue);
 }

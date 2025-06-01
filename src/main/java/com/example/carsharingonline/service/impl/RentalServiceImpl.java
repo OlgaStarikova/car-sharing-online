@@ -13,11 +13,17 @@ import com.example.carsharingonline.security.AuthenticationService;
 import com.example.carsharingonline.service.CarService;
 import com.example.carsharingonline.service.RentalService;
 import com.example.carsharingonline.service.UserService;
+import com.example.carsharingonline.service.notification.NotificationTemplates;
+import com.example.carsharingonline.service.notification.NotificationType;
+import com.example.carsharingonline.service.notification.TelegramNotificationService;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +32,13 @@ import org.springframework.stereotype.Service;
 public class RentalServiceImpl implements RentalService {
     private static final int INCREASE_VALUE = 1;
     private static final int DECREASE_VALUE = -1;
+    private static final int DAYS_FOR_NOTICE_BEFORE_OVERDUE = 1;
     private final RentalRepository rentalRepository;
     private final RentalMapper rentalMapper;
     private final CarService carService;
     private final AuthenticationService authenticationService;
     private final UserService userService;
+    private final TelegramNotificationService notificationService;
 
     @Override
     public RentalDto createRental(User user, CreateRentalRequestDto requestDto) {
@@ -43,6 +51,13 @@ public class RentalServiceImpl implements RentalService {
                 .map(rentalMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Input parameters can't be null"));
         carService.updateCarInventory(requestDto.carId(), DECREASE_VALUE);
+        notificationService.sendMessageAdmin(NotificationTemplates.getTemplate(
+                NotificationType.NEW_RENTAL,
+                car.getId(),
+                car.getModel(),
+                user.getEmail(),
+                rentalDto.rentalDate(),
+                rentalDto.returnDate()));
         return rentalDto;
     }
 
@@ -122,5 +137,30 @@ public class RentalServiceImpl implements RentalService {
         Rental savedRental = rentalRepository.save(rental);
         carService.updateCarInventory(requestDto.carId(), INCREASE_VALUE);
         return rentalMapper.toDto(savedRental);
+    }
+
+    @Override
+    @Scheduled(cron = "0 10 22 * * *")
+    public void checkOverdueRentals() {
+        LocalDate dateOverdue = LocalDate.now().plusDays(DAYS_FOR_NOTICE_BEFORE_OVERDUE);
+
+        List<Rental> overdueRentals = rentalRepository
+                .findRentalsByRentalDateBeforeAndActualReturnDateIsNull(dateOverdue);
+
+        if (overdueRentals.isEmpty()) {
+            notificationService
+                    .sendMessageAdmin("✅ No overdue rentals today!");
+            return;
+        }
+        for (Rental rental : overdueRentals) {
+            notificationService.sendMessageAdmin(NotificationTemplates.getTemplate(
+                    NotificationType.OVERDUE_RENTAL,
+                    rental.getCar().getId(),
+                    rental.getUser().getFirstName() + " " + rental.getUser().getLastName(),
+                    rental.getUser().getEmail(),
+                    rental.getCar().getModel(),
+                    rental.getReturnDate(),
+                    ChronoUnit.DAYS.between(LocalDate.now(), rental.getReturnDate())));
+        }
     }
 }

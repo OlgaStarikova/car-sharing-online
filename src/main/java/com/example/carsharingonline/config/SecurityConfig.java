@@ -52,7 +52,7 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/**", "/error","/cars/**",
                                         "/swagger-ui/**", "/v3/api-docs/**", "/index.html")
                                 .permitAll()
-                                .requestMatchers("/admin/**", "/user/**")
+                                .requestMatchers("/admin/**", "/registered/**")
                                 .authenticated()
                 )
                 .httpBasic(withDefaults())
