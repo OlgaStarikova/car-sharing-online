@@ -161,6 +161,11 @@
             <artifactId>telegrambots-abilities</artifactId>
             <version>6.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>28.4.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
