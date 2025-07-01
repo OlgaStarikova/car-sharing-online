@@ -51,10 +51,10 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDto updateCar(Long id, CreateCarRequestDto requestDto) {
-        Car car = carMapper.toModel(requestDto);
-        car.setId(id);
         carRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find car by id " + id));
+        Car car = carMapper.toModel(requestDto);
+        car.setId(id);
         return carMapper.toDto(carRepository.save(car));
     }
 
