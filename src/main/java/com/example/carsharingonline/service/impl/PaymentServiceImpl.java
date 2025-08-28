@@ -47,10 +47,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentDetailedResponseDto> getAll(User user, Long id) {
-        if (!user.getRoles().contains(Role.RoleName.ADMIN)) {
+        if (!user.getRoles()
+                .stream()
+                .anyMatch(role -> role.getRole() == Role.RoleName.ADMIN)) {
             if (!Objects.equals(user.getId(), id)) {
                 throw new AccessDeniedException("This user with id: " + user.getId()
-                        + " can't see payments of other customers");
+                        + " can't see payments of other users");
             }
             return paymentRepository.findAllByRental_User_Id(id).stream()
                     .map(paymentMapper::toDetailedDto)
@@ -65,12 +67,12 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public PaymentResponseDto createPaymentSession(CreatePaymentRequestDto requestDto) {
         Stripe.apiKey = secretKey;
-        Rental rental = rentalRepository.findById(requestDto.getRentalId()).orElseThrow(
+        Rental rental = rentalRepository.findById(requestDto.rentalId()).orElseThrow(
                 () -> new EntityNotFoundException("Can't find a rental by id: "
-                        + requestDto.getRentalId())
+                        + requestDto.rentalId())
         );
         CalculationService calculationService = calculationServiceStrategy
-                .getCalculationService(requestDto.getType());
+                .getCalculationService(requestDto.type());
         BigDecimal amount = calculationService.calculateAmount(rental);
         Session session = stripeService.createSession(amount);
         return paymentMapper.toDto(paymentRepository
@@ -99,7 +101,7 @@ public class PaymentServiceImpl implements PaymentService {
                         + sessionId + " is not completed");
             }
         } catch (StripeException e) {
-            throw new EntityNotFoundException("Can't find a payment by sessionId: " + sessionId);
+            throw new EntityNotFoundException("??Can't find a payment by sessionId: " + sessionId);
         }
     }
 
@@ -123,7 +125,7 @@ public class PaymentServiceImpl implements PaymentService {
                                           Rental rental) {
         return new Payment()
                 .setStatus(Payment.Status.PENDING)
-                .setType(requestDto.getType())
+                .setType(requestDto.type())
                 .setRental(rental)
                 .setSessionUrl(session.getUrl())
                 .setSessionId(session.getId())

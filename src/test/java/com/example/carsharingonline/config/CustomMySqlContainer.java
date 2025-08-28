@@ -9,6 +9,8 @@ public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
 
     public CustomMySqlContainer() {
         super(DB_IMAGE);
+        this.withCommand("mysqld", "--character-set-server=utf8mb4",
+                "--collation-server=utf8mb4_unicode_ci", "--time-zone=Europe/Kiev");
     }
 
     public static synchronized CustomMySqlContainer getInstance() {

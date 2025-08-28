@@ -13,11 +13,11 @@ import org.springframework.stereotype.Repository;
 public interface RentalRepository extends JpaRepository<Rental, Long> {
     Page<Rental> findRentalsByUserId(Long userId, Pageable pageable);
 
-    Page<Rental> findRentalsByUserIdAndActualReturnDateExists(Long userId, Pageable pageable);
+    Page<Rental> findRentalsByUserIdAndActualReturnDateIsNotNull(Long userId, Pageable pageable);
 
     Page<Rental> findRentalsByUserIdAndActualReturnDateIsNull(Long userId, Pageable pageable);
 
-    Page<Rental> findRentalsByActualReturnDateExists(Pageable pageable);
+    Page<Rental> findRentalsByActualReturnDateIsNotNull(Pageable pageable);
 
     Page<Rental> findRentalsByActualReturnDateIsNull(Pageable pageable);
 
