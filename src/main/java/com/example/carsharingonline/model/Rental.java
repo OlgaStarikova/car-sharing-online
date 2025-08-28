@@ -31,7 +31,7 @@ public class Rental {
     private LocalDate rentalDate = LocalDate.now();
     @Column(nullable = false)
     private LocalDate returnDate;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate actualReturnDate;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(nullable = false, name = "car_id")

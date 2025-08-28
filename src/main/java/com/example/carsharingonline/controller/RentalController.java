@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RentalController {
     private final RentalService rentalService;
 
-    @GetMapping("/registered/rentals/{userId}&{isActive}")
+    @GetMapping("/registered/rentals/")
     @Operation(summary = "Get a list of rentals",
             description = "Get a list of all available rentals."
                     + "Params(optional): page = page number, size = count of rentals in one page,"
@@ -41,7 +41,7 @@ public class RentalController {
         return rentalService.findByUserIdAndActive(userId, isActive, pageable);
     }
 
-    @GetMapping("/registered/{rentalId}")
+    @GetMapping("/registered/rentals/{rentalId}")
     @Operation(summary = "Get the rental by rentalId", description = "Get the rental by userId"
             + "Params: rentalId = Id of the rental. Available for registered users.")
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")

@@ -72,7 +72,7 @@ public class RentalServiceImpl implements RentalService {
                 if (isActive) {
                     rentals = rentalRepository.findRentalsByActualReturnDateIsNull(pageable);
                 } else {
-                    rentals = rentalRepository.findRentalsByActualReturnDateExists(pageable);
+                    rentals = rentalRepository.findRentalsByActualReturnDateIsNotNull(pageable);
                 }
             }
         } else {
@@ -84,42 +84,13 @@ public class RentalServiceImpl implements RentalService {
                             .findRentalsByUserIdAndActualReturnDateIsNull(userId, pageable);
                 } else {
                     rentals = rentalRepository
-                            .findRentalsByUserIdAndActualReturnDateExists(userId, pageable);
+                            .findRentalsByUserIdAndActualReturnDateIsNotNull(userId, pageable);
                 }
             }
         }
         return rentals.stream()
                 .map(rentalMapper::toDto)
                 .toList();
-    }
-
-    private Long resolveUserIdOrThrow(Long userId) {
-        if (userId != null) {
-            userService.findUserById(userId);
-        }
-        Boolean isRoleHasAdmin = authenticationService.hasRole("ADMIN");
-        Long currentUserId = authenticationService.getCurrentUserId()
-                .orElseThrow(() -> new RuntimeException("Can't identify "
-                        + "the user"));
-
-        if (userId == null) {
-            if (isRoleHasAdmin) {
-                return null;
-            } else {
-                return currentUserId;
-            }
-        } else {
-            if (isRoleHasAdmin) {
-                return userId;
-            } else {
-                if (userId.equals(currentUserId)) {
-                    return userId;
-                } else {
-                    throw new AccessDeniedException("Access Denied: Can't "
-                            + "view another user's data");
-                }
-            }
-        }
     }
 
     @Override
@@ -161,6 +132,35 @@ public class RentalServiceImpl implements RentalService {
                     rental.getCar().getModel(),
                     rental.getReturnDate(),
                     ChronoUnit.DAYS.between(LocalDate.now(), rental.getReturnDate())));
+        }
+    }
+
+    private Long resolveUserIdOrThrow(Long userId) {
+        if (userId != null) {
+            userService.findUserById(userId);
+        }
+        Boolean isRoleHasAdmin = authenticationService.hasRole("ADMIN");
+        Long currentUserId = authenticationService.getCurrentUserId()
+                .orElseThrow(() -> new RuntimeException("Can't identify "
+                        + "the user"));
+
+        if (userId == null) {
+            if (isRoleHasAdmin) {
+                return null;
+            } else {
+                return currentUserId;
+            }
+        } else {
+            if (isRoleHasAdmin) {
+                return userId;
+            } else {
+                if (userId.equals(currentUserId)) {
+                    return userId;
+                } else {
+                    throw new AccessDeniedException("Access Denied: Can't "
+                            + "view another user's data");
+                }
+            }
         }
     }
 }
