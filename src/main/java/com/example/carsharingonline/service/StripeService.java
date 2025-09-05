@@ -1,5 +1,6 @@
 package com.example.carsharingonline.service;
 
+import com.example.carsharingonline.service.builder.StripeUriBuilder;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -12,11 +13,10 @@ public class StripeService {
     private static final String CURRENCY = "USD";
     private static final long QUANTITY = 1L;
     private static final String NAME = "Car rental stripe payment";
-    private static final String SUCCESS_URL = "http://localhost:8088/registered/payments/success?sessionId={CHECKOUT_SESSION_ID}";
-    private static final String CANCEL_URL = "http://localhost:8088/registered/payments/cancel";
     private static final long HOUR_IN_SECONDS = 7200;
 
     public Session createSession(BigDecimal amount) {
+
         SessionCreateParams.LineItem.PriceData.ProductData productData
                 = SessionCreateParams.LineItem.PriceData.ProductData.builder()
                 .setName(NAME)
@@ -34,12 +34,15 @@ public class StripeService {
                 .setPriceData(priceData)
                 .build();
 
+        String successUrl = StripeUriBuilder.buildSuccessUrl();
+        String cancelUrl = StripeUriBuilder.buildCancelUrl();
+
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setExpiresAt(Instant.now().getEpochSecond() + HOUR_IN_SECONDS)
-                .setSuccessUrl(SUCCESS_URL)
-                .setCancelUrl(CANCEL_URL)
+                .setSuccessUrl(successUrl)
+                .setCancelUrl(cancelUrl)
                 .addLineItem(lineItem)
                 .build();
 
