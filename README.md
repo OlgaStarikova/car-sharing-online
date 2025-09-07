@@ -87,4 +87,98 @@ Notifications about new rentals created, overdue rentals, and successful payment
 Other services interact with it to send notifications to car sharing service administrators.
 Uses Telegram API, Telegram Chats, and Bots.
 
+## Getting started local 
+### Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- [Docker](https://www.docker.com/get-started) installed on your machine.
+- [Docker Compose](https://docs.docker.com/compose/install/) installed.
+### Installation
+1. **Clone the Repository**:
+
+    ```sh
+    git clone https://github.com/OlgaStarikova/car-sharing-online.git
+    cd car-sharing-online
+    ```
+
+2. **Configure Environment Variables**:
+
+   Customize the `.env` file to set up your environment-specific variables such as database credentials, JWT secret keys, etc. This allows you to connect to your own database or adjust configurations as needed.
+
+
+3. **Set Up the Environment**:
+
+   Ensure Docker and Docker Compose are installed on your system. You can configure environment variables directly in the `docker-compose.yml` file.
+
+4. **Build and Run the Application**:
+
+    ```sh
+    docker-compose build
+    docker-compose up
+    ```
+
+5. **Access the Application**:
+
+   The application will be available at `http://localhost:8088/api`.
+
+6. **API Documentation**:
+
+   Access the API documentation via Swagger at `http://localhost:8088/api/swagger-ui/index.html#/`.
+   
+8. **Postman**
+   Use a Postman for generate queries
+  
+   ***Tutorial video for Postman using***
+   + Login to application
+   
+    https://github.com/user-attachments/assets/49405c03-49c9-4006-bc3a-699aedcceb44
+   
+   + Get all cars
+    
+   https://github.com/user-attachments/assets/122c808a-f35a-46cc-8a37-d8d510f2d183
+
+
+   
+## AWS
+### You can test deployed instance of the application on AWS!
+
+The project has the launched example on AWS:
+
+[CAR SHARING ONLINE on AWS](http://ec2-16-170-218-166.eu-north-1.compute.amazonaws.com:8080/swagger-ui/index.html)
+
+To login with an Admin authority, use this Login and Password: 
+```json
+{
+  "email": "Admin@gmail.com",
+  "password": "12345678"
+}
+```
+
+To login with an User authority, use this Login and Password: 
+```json
+{
+  "email": "User@gmail.com",
+  "password": "123456789"
+}
+```
+
+  ***Tutorial video for Swagger using***
++ This video will help you to understand what you need to do to log in:
+
+https://github.com/user-attachments/assets/9b209410-33da-451a-8656-c50ed69fd5eb
+
+Authorization is necessary for getting access to data.
+
++ This video will help you to make a request:
+
+https://github.com/user-attachments/assets/19caabe5-7ec2-4904-9d24-59b6823a71f0
+
+## Contact
+
+For any questions or suggestions, feel free to reach out:
+
+- GitHub: [OlgaStarikova](https://github.com/OlgaStarikova)
+- email: ole4kastar79@gmail.com
+
 
