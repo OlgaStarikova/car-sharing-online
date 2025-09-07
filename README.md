@@ -43,3 +43,48 @@ So,
 + **GitHub** - Transfering to GitHub 
 + **AWS** - Launched on AWS service EC2.
 
+## Arhitecture
+<img width="1327" height="880" alt="image" src="https://github.com/user-attachments/assets/f72aa18e-d39e-4608-926b-ad1428ba0f4c" />
+
+## Controllers
+
+### Authentication Controller:
+
++ POST: /register - register a new user
++ POST: /login - get JWT tokens
+
+### Users Controller: Managing authentication and user registration
+
++ PUT: /users/{id}/role - update user role
++ GET: /users/me - get my profile info
++ PUT/PATCH: /users/me - update profile info
+
+### Cars Controller: Managing car inventory (CRUD for Cars)
+
++ POST: /admin/cars - add a new car
++ GET: /cars - get a list of cars
++ GET: /cars/{id} - get car's detailed information
++ PUT/PATCH: /admin/cars/{id} - update car (also manage inventory)
++ DELETE: /admin/cars/{id} - delete car
+
+### Rentals Controller: Managing users' car rentals
+
++ POST: /registered/rentals/{rentalId} - add a new rental 
++ GET: /registered/rentals/?user_id=...&is_active=... - get rentals by user ID and whether the rental is still active or not
++ GET: /registered/rentals/{rentalId} - get specific rental
++ POST: /registered/rentals/ - set actual return date
+
+### Payments Controller (Stripe): Facilitates payments for car rentals through the platform. Interacts with Stripe API. 
+
++ GET: /registered/payments/?user_id=... - get payments
++ POST: /registered/payments/ - create payment session
++ GET: /registered/payments/success/ - check successful Stripe payments (Endpoint for stripe redirection)
++ GET: /registered/payments/cancel/ - return payment paused message (Endpoint for stripe redirection)
+
+### Notifications Service (Telegram):
+
+Notifications about new rentals created, overdue rentals, and successful payments
+Other services interact with it to send notifications to car sharing service administrators.
+Uses Telegram API, Telegram Chats, and Bots.
+
+
