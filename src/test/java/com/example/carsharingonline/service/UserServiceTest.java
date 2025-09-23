@@ -56,7 +56,8 @@ class UserServiceTest {
         when(userRepository.existsByEmail(requestDto.email())).thenReturn(false);
         when(userMapper.toModel(requestDto)).thenReturn(user);
         when(passwordEncoder.encode(requestDto.password())).thenReturn("encodedPassword");
-        when(roleRepository.getByRole(Role.RoleName.USER)).thenReturn(userRole);
+        when(roleRepository.getByRole(Role.RoleName.CUSTOMER))
+                .thenReturn(Optional.ofNullable(userRole));
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(userMapper.toDto(user)).thenReturn(responseDto);
 
@@ -67,7 +68,7 @@ class UserServiceTest {
         verify(userRepository).existsByEmail(requestDto.email());
         verify(userMapper).toModel(requestDto);
         verify(passwordEncoder).encode(requestDto.password());
-        verify(roleRepository).getByRole(Role.RoleName.USER);
+        verify(roleRepository).getByRole(Role.RoleName.CUSTOMER);
         verify(userRepository).save(user);
         verify(userMapper).toDto(user);
     }

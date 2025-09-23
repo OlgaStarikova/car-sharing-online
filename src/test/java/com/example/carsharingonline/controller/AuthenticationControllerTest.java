@@ -86,7 +86,7 @@ public class AuthenticationControllerTest {
 
             String insertUserRoleSql = """
                         INSERT INTO users_roles (user_id, role_id)
-                        VALUES (?, (SELECT id FROM roles WHERE role = 'USER'))
+                        VALUES (?, (SELECT id FROM roles WHERE role = 'CUSTOMER'))
                     """;
 
             try (PreparedStatement ps = connection.prepareStatement(insertUserRoleSql)) {

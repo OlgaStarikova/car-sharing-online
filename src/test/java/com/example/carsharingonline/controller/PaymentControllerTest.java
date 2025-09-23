@@ -107,7 +107,7 @@ class PaymentControllerTest {
         assertEquals(0, expectedDto.amountToPay().compareTo(actual.amountToPay()));
     }
 
-    @WithMockUser(username = "user", authorities = {"USER"})
+    @WithMockUser(username = "user", authorities = {"CUSTOMER"})
     @Test
     @DisplayName("Create payment session")
     void createPaymentSession_ValidRequest_Success() throws Exception {
@@ -131,7 +131,7 @@ class PaymentControllerTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    @WithMockUser(username = "admin", authorities = {"ADMIN"})
+    @WithMockUser(username = "admin", authorities = {"MANAGER"})
     @Test
     @DisplayName("Handle successful payment")
     void handleSuccess_ValidSessionId_Success() throws Exception {
@@ -155,7 +155,7 @@ class PaymentControllerTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    @WithMockUser(username = "user", authorities = {"USER"})
+    @WithMockUser(username = "user", authorities = {"CUSTOMER"})
     @Test
     @DisplayName("Handle canceled payment")
     void handleCancel_ValidSessionId_Success() throws Exception {

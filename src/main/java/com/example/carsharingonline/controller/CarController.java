@@ -46,7 +46,7 @@ public class CarController {
     @PostMapping("/admin/cars")
     @Operation(summary = "Create a new car", description = "Create a new car. "
             + "Available for admins.")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public CarDto createCar(@RequestBody @Valid CreateCarRequestDto requestDto) {
         return carService.save(requestDto);
     }
@@ -55,7 +55,7 @@ public class CarController {
     @DeleteMapping("/admin/cars/{id}")
     @Operation(summary = "Delete the car", description = "Delete the car by Id."
             + "Params: id = Id of the car. Available for admins.")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public void deleteCarById(@PathVariable Long id) {
         carService.deleteCar(id);
     }
@@ -63,7 +63,7 @@ public class CarController {
     @PutMapping("/admin/cars/{id}")
     @Operation(summary = "Update the car", description = "Update the car by Id."
             + "Params: id = Id of the car. Available for admins.")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public CarDto updateCar(@PathVariable Long id,
                             @RequestBody @Valid CreateCarRequestDto requestDto) {
         return carService.updateCar(id, requestDto);
