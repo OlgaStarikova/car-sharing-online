@@ -44,7 +44,6 @@ public class TestDataUtil {
     public static final String TEST_USER_PASSWORD = "123456789";
     public static final String TEST_USER_FIRST_NAME = "John";
     public static final String TEST_USER_LAST_NAME = "Smith";
-    public static final String TEST_USER_SHIPPING_ADDRESS = "Green street,5";
     public static final String TEST_TOKEN = "sss";
     public static final Long TEST_ADMIN_ID = 2L;
     public static final String TEST_ADMIN_EMAIL = "admin@example.com";
@@ -110,13 +109,13 @@ public class TestDataUtil {
     private static final Role userRole = new Role();
 
     static {
-        userRole.setRole(Role.RoleName.USER);
+        userRole.setRole(Role.RoleName.CUSTOMER);
     }
 
     private static final Role adminRole = new Role();
 
     static {
-        adminRole.setRole(Role.RoleName.ADMIN);
+        adminRole.setRole(Role.RoleName.MANAGER);
     }
 
     private static final User user = new User()
@@ -135,8 +134,7 @@ public class TestDataUtil {
                     TEST_USER_PASSWORD,
                     TEST_USER_PASSWORD,
                     TEST_USER_FIRST_NAME,
-                    TEST_USER_LAST_NAME,
-                    TEST_USER_SHIPPING_ADDRESS
+                    TEST_USER_LAST_NAME
             );
     private static final UserLoginRequestDto userLoginRequestDto =
             new UserLoginRequestDto(
@@ -154,7 +152,7 @@ public class TestDataUtil {
                     TEST_NEW_USER_EMAIL,
                     TEST_USER_FIRST_NAME,
                     TEST_USER_LAST_NAME,
-                    TEST_USER_SHIPPING_ADDRESS
+                    Set.of(Role.RoleName.MANAGER.toString())
             );
 
     private static final CreateRentalRequestDto createRentalRequestDto =
@@ -202,9 +200,9 @@ public class TestDataUtil {
 
     private static final CreatePaymentRequestDto createPaymentRequestDto =
             new CreatePaymentRequestDto(
-            TEST_RENTAL_ID,
-            TEST_PAYMENT_TYPE
-    );
+                    TEST_RENTAL_ID,
+                    TEST_PAYMENT_TYPE
+            );
 
     private static final Payment payment = new Payment()
             .setId(TEST_PAYMENT_ID)

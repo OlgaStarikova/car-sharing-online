@@ -89,7 +89,7 @@ public class CarControllerTest {
         tearDown(dataSource);
     }
 
-    @WithMockUser(username = "Admin", authorities = {"ADMIN"})
+    @WithMockUser(username = "Admin", authorities = {"MANAGER"})
     @Test
     @DisplayName("""
             Test save method, valid result
@@ -117,7 +117,7 @@ public class CarControllerTest {
         //Assertions.assertEquals(expected, actual);
     }
 
-    @WithMockUser(username = "User", authorities = {"USER"})
+    @WithMockUser(username = "User", authorities = {"CUSTOMER"})
     @Test
     @DisplayName("Find All cars")
     public void findAllCars_ValidRequest_Success() throws Exception {
@@ -135,7 +135,7 @@ public class CarControllerTest {
         Assertions.assertEquals(2, actual.length);
     }
 
-    @WithMockUser(username = "User", authorities = {"USER"})
+    @WithMockUser(username = "User", authorities = {"CUSTOMER"})
     @Test
     @DisplayName("Find car by Id")
     public void findCarById_ValidRequest_Success() throws Exception {
@@ -159,7 +159,7 @@ public class CarControllerTest {
         Assertions.assertEquals(0, expected.daylyFee().compareTo(actual.daylyFee()));
     }
 
-    @WithMockUser(username = "Admin", authorities = {"ADMIN"})
+    @WithMockUser(username = "Admin", authorities = {"MANAGER"})
     @Test
     @DisplayName("Delete existing car")
     public void delete_anyRequest_Success() throws Exception {
@@ -171,7 +171,7 @@ public class CarControllerTest {
                 .andReturn();
     }
 
-    @WithMockUser(username = "Admin", authorities = {"ADMIN"})
+    @WithMockUser(username = "Admin", authorities = {"MANAGER"})
     @Test
     @DisplayName("""
             Test save method, valid result

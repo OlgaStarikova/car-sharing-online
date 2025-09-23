@@ -17,6 +17,6 @@ public record UserRegistrationRequestDto(
         @NotBlank
         String firstName,
         @NotBlank
-        String lastName,
-        String shippingAddress) {
+        String lastName
+) {
 }

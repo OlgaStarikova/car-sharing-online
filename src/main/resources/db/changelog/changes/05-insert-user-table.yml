@@ -22,9 +22,6 @@ databaseChangeLog:
                   name: last_name
                   value: 'Root'
               - column:
-                  name: shipping_address
-                  value: ''
-              - column:
                   name: is_deleted
                   value: 0
         - insert:
@@ -45,9 +42,6 @@ databaseChangeLog:
               - column:
                   name: last_name
                   value: 'Common'
-              - column:
-                  name: shipping_address
-                  value: ''
               - column:
                   name: is_deleted
                   value: 0

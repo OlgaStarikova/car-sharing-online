@@ -21,7 +21,7 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, columnDefinition = "enum('ADMIN', 'USER')")
+    @Column(nullable = false, unique = true, columnDefinition = "enum('MANAGER', 'CUSTOMER')")
     @Enumerated(EnumType.STRING)
     private RoleName role;
 
@@ -31,7 +31,7 @@ public class Role implements GrantedAuthority {
     }
 
     public enum RoleName {
-        USER,
-        ADMIN
+        MANAGER,
+        CUSTOMER
     }
 }

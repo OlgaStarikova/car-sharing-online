@@ -36,7 +36,7 @@ public class PaymentController {
         return paymentService.getAll(user, id);
     }
 
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @PostMapping
     @Operation(summary = "Create payment session")
     public PaymentResponseDto createPaymentSession(
@@ -44,7 +44,7 @@ public class PaymentController {
         return paymentService.createPaymentSession(requestDto);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/success")
     @Operation(summary = "Handle successful payment")
     public PaymentStatusResponseDto handleSuccess(
@@ -52,7 +52,7 @@ public class PaymentController {
         return paymentService.handleSuccess(sessionId);
     }
 
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/cancel")
     @Operation(summary = "Handle cancel payment")
     public PaymentStatusResponseDto handleCancel(

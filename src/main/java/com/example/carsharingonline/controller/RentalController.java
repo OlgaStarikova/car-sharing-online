@@ -34,7 +34,7 @@ public class RentalController {
             description = "Get a list of all available rentals."
                     + "Params(optional): page = page number, size = count of rentals in one page,"
                     + " namefield = field for sorting. Available for registered users.")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER','MANAGER')")
     public List<RentalDto> getRentals(@RequestParam(required = false) Long userId,
                                       @RequestParam(required = false) Boolean isActive,
                                       @ParameterObject @PageableDefault Pageable pageable) {
@@ -44,7 +44,7 @@ public class RentalController {
     @GetMapping("/registered/rentals/{rentalId}")
     @Operation(summary = "Get the rental by rentalId", description = "Get the rental by userId"
             + "Params: rentalId = Id of the rental. Available for registered users.")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER','MANAGER')")
     public RentalDto getRentalById(@PathVariable Long rentalId) {
         return rentalService.findById(rentalId);
     }
@@ -52,7 +52,7 @@ public class RentalController {
     @PostMapping("/registered/rentals/")
     @Operation(summary = "Create a new rental", description = "Create a new rental. "
             + "Available for admins.")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER','MANAGER')")
     public RentalDto createRental(Authentication authentication,
                                   @RequestBody @Valid CreateRentalRequestDto requestDto) {
         User user = (User) authentication.getPrincipal();
@@ -62,7 +62,7 @@ public class RentalController {
     @PutMapping("/registered/rentals/{rentalId}")
     @Operation(summary = "Update the rental", description = "Update the rental by Id."
             + "Params: id = Id of the rental. Available for admins.")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER','MANAGER')")
     public RentalDto updateRental(@PathVariable Long rentalId,
                                   @RequestBody @Valid ReturnRentalRequestDto requestDto) {
         return rentalService.closeRental(rentalId, requestDto);

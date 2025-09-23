@@ -39,7 +39,6 @@ public class User implements UserDetails {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    private String shippingAddress;
     @Column(nullable = false)
     private boolean isDeleted = false;
     @ManyToMany(fetch = FetchType.EAGER)

@@ -139,7 +139,7 @@ public class RentalServiceImpl implements RentalService {
         if (userId != null) {
             userService.findUserById(userId);
         }
-        Boolean isRoleHasAdmin = authenticationService.hasRole("ADMIN");
+        Boolean isRoleHasAdmin = authenticationService.hasRole("MANAGER");
         Long currentUserId = authenticationService.getCurrentUserId()
                 .orElseThrow(() -> new RuntimeException("Can't identify "
                         + "the user"));

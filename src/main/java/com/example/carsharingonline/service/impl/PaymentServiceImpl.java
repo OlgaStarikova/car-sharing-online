@@ -49,7 +49,7 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentDetailedResponseDto> getAll(User user, Long id) {
         if (!user.getRoles()
                 .stream()
-                .anyMatch(role -> role.getRole() == Role.RoleName.ADMIN)) {
+                .anyMatch(role -> role.getRole() == Role.RoleName.MANAGER)) {
             if (!Objects.equals(user.getId(), id)) {
                 throw new AccessDeniedException("This user with id: " + user.getId()
                         + " can't see payments of other users");
