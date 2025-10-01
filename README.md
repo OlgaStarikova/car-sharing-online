@@ -50,36 +50,20 @@ So,
 
 ### Authentication Controller:
 
-+ POST: /register - register a new user
-+ POST: /login - get JWT tokens
 
 ### Users Controller: Managing authentication and user registration
 
-+ PUT: /users/{id}/role - update user role
-+ GET: /users/me - get my profile info
-+ PUT/PATCH: /users/me - update profile info
 
 ### Cars Controller: Managing car inventory (CRUD for Cars)
 
-+ POST: /admin/cars - add a new car
-+ GET: /cars - get a list of cars
-+ GET: /cars/{id} - get car's detailed information
-+ PUT/PATCH: /admin/cars/{id} - update car (also manage inventory)
-+ DELETE: /admin/cars/{id} - delete car
+
 
 ### Rentals Controller: Managing users' car rentals
 
-+ POST: /registered/rentals/{rentalId} - add a new rental 
-+ GET: /registered/rentals/?user_id=...&is_active=... - get rentals by user ID and whether the rental is still active or not
-+ GET: /registered/rentals/{rentalId} - get specific rental
-+ POST: /registered/rentals/ - set actual return date
 
 ### Payments Controller (Stripe): Facilitates payments for car rentals through the platform. Interacts with Stripe API. 
 
-+ GET: /registered/payments/?user_id=... - get payments
-+ POST: /registered/payments/ - create payment session
-+ GET: /registered/payments/success/ - check successful Stripe payments (Endpoint for stripe redirection)
-+ GET: /registered/payments/cancel/ - return payment paused message (Endpoint for stripe redirection)
+
 
 ### Notifications Service (Telegram):
 
@@ -93,7 +77,7 @@ Uses Telegram API, Telegram Chats, and Bots.
 Before you begin, ensure you have met the following requirements:
 
 - [Docker](https://www.docker.com/get-started) installed on your machine.
-- [Docker Compose](https://docs.docker.com/compose/install/) installed.
+
 ### Installation
 1. **Clone the Repository**:
 
@@ -114,8 +98,8 @@ Before you begin, ensure you have met the following requirements:
 4. **Build and Run the Application**:
 
     ```sh
-    docker-compose build
-    docker-compose up
+    docker compose build
+    docker compose up
     ```
 
 5. **Access the Application**:
