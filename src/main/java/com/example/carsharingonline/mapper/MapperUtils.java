@@ -1,6 +1,6 @@
 package com.example.carsharingonline.mapper;
 
-import com.example.carsharingonline.dto.CarDto;
+import com.example.carsharingonline.dto.car.CarDto;
 import com.example.carsharingonline.exception.EntityNotFoundException;
 import com.example.carsharingonline.model.Car;
 import com.example.carsharingonline.repository.CarRepository;

@@ -9,11 +9,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.carsharingonline.dto.CreatePaymentRequestDto;
-import com.example.carsharingonline.dto.PaymentDetailedResponseDto;
-import com.example.carsharingonline.dto.PaymentResponseDto;
-import com.example.carsharingonline.dto.PaymentStatusResponseDto;
-import com.example.carsharingonline.service.PaymentService;
+import com.example.carsharingonline.dto.payment.CreatePaymentRequestDto;
+import com.example.carsharingonline.dto.payment.PaymentDetailedResponseDto;
+import com.example.carsharingonline.dto.payment.PaymentResponseDto;
+import com.example.carsharingonline.dto.payment.PaymentStatusResponseDto;
+import com.example.carsharingonline.service.payment.PaymentService;
 import com.example.carsharingonline.utils.TestDataUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
@@ -55,7 +55,7 @@ class PaymentControllerTest {
 
         // When
         MvcResult result = mockMvc.perform(
-                        get("/registered/payments/" + userId)
+                        get("/public/payments/" + userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andReturn();
@@ -87,7 +87,7 @@ class PaymentControllerTest {
 
         // When
         MvcResult result = mockMvc.perform(
-                        get("/registered/payments/" + userId)
+                        get("/public/payments/" + userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andReturn();
@@ -118,7 +118,7 @@ class PaymentControllerTest {
 
         // When
         MvcResult result = mockMvc.perform(
-                        post("/registered/payments")
+                        post("/public/payments")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(requestDto))
                 ).andExpect(status().isOk())
@@ -142,7 +142,7 @@ class PaymentControllerTest {
 
         // When
         MvcResult result = mockMvc.perform(
-                        get("/registered/payments/success")
+                        get("/public/payments/success")
                                 .param("sessionId", sessionId)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
@@ -166,7 +166,7 @@ class PaymentControllerTest {
 
         // When
         MvcResult result = mockMvc.perform(
-                        get("/registered/payments/cancel")
+                        get("/public/payments/cancel")
                                 .param("sessionId", sessionId)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())

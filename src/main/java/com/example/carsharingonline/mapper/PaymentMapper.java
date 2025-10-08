@@ -1,9 +1,9 @@
 package com.example.carsharingonline.mapper;
 
 import com.example.carsharingonline.config.MapperConfig;
-import com.example.carsharingonline.dto.PaymentDetailedResponseDto;
-import com.example.carsharingonline.dto.PaymentResponseDto;
-import com.example.carsharingonline.dto.PaymentStatusResponseDto;
+import com.example.carsharingonline.dto.payment.PaymentDetailedResponseDto;
+import com.example.carsharingonline.dto.payment.PaymentResponseDto;
+import com.example.carsharingonline.dto.payment.PaymentStatusResponseDto;
 import com.example.carsharingonline.model.Payment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

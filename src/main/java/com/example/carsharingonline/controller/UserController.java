@@ -1,10 +1,10 @@
 package com.example.carsharingonline.controller;
 
-import com.example.carsharingonline.dto.UserProfileRequestDto;
-import com.example.carsharingonline.dto.UserResponseDto;
-import com.example.carsharingonline.dto.UserUpdateRolesRequestDto;
+import com.example.carsharingonline.dto.user.UserProfileRequestDto;
+import com.example.carsharingonline.dto.user.UserResponseDto;
+import com.example.carsharingonline.dto.user.UserUpdateRolesRequestDto;
 import com.example.carsharingonline.model.User;
-import com.example.carsharingonline.service.UserService;
+import com.example.carsharingonline.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "User profile management", description = "Endpoints for user's profile")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("registered/users")
+@RequestMapping("public/users")
 public class UserController {
     private final UserService userService;
 
     @Operation(summary = "Get a user's profile", description = "Get a user's profile "
             + "for authentication user ")
     @GetMapping("/me")
-    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER','MANAGER')")
     public UserResponseDto getProfile(Authentication authentication,
                                       @ParameterObject @PageableDefault Pageable pageable
     ) {
@@ -40,6 +40,9 @@ public class UserController {
     }
 
     @PutMapping("/me")
+    @Operation(summary = "Update a user profile", description = "Update a user's profile "
+            + "for authentication user ")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER','MANAGER')")
     public UserResponseDto updateProfile(Authentication authentication,
                                          @RequestBody UserProfileRequestDto request
     ) {
@@ -48,6 +51,9 @@ public class UserController {
     }
 
     @PatchMapping("/me")
+    @Operation(summary = "Patch a user profile", description = "Update a user's  profile "
+            + "fields that are not Null ")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER','MANAGER')")
     public UserResponseDto patchProfile(
             Authentication authentication,
             @RequestBody UserProfileRequestDto request

@@ -1,8 +1,8 @@
 package com.example.carsharingonline.controller;
 
-import com.example.carsharingonline.dto.CarDto;
-import com.example.carsharingonline.dto.CreateCarRequestDto;
-import com.example.carsharingonline.service.CarService;
+import com.example.carsharingonline.dto.car.CarDto;
+import com.example.carsharingonline.dto.car.CreateCarRequestDto;
+import com.example.carsharingonline.service.car.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

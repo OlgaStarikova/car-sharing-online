@@ -1,12 +1,12 @@
 package com.example.carsharingonline.controller;
 
-import com.example.carsharingonline.dto.UserLoginRequestDto;
-import com.example.carsharingonline.dto.UserLoginResponseDto;
-import com.example.carsharingonline.dto.UserRegistrationRequestDto;
-import com.example.carsharingonline.dto.UserResponseDto;
+import com.example.carsharingonline.dto.user.UserLoginRequestDto;
+import com.example.carsharingonline.dto.user.UserLoginResponseDto;
+import com.example.carsharingonline.dto.user.UserRegistrationRequestDto;
+import com.example.carsharingonline.dto.user.UserResponseDto;
 import com.example.carsharingonline.exception.RegistrationException;
 import com.example.carsharingonline.security.AuthenticationService;
-import com.example.carsharingonline.service.UserService;
+import com.example.carsharingonline.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

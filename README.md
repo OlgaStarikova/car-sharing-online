@@ -60,10 +60,17 @@ So,
 
 ### Rentals Controller: Managing users' car rentals
 
++ POST: /public/rentals/{rentalId} - add a new rental 
++ GET: /public/rentals/?user_id=...&is_active=... - get rentals by user ID and whether the rental is still active or not
++ GET: /public/rentals/{rentalId} - get specific rental
++ POST: /public/rentals/ - set actual return date
 
 ### Payments Controller (Stripe): Facilitates payments for car rentals through the platform. Interacts with Stripe API. 
 
-
++ GET: /public/payments/?user_id=... - get payments
++ POST: /public/payments/ - create payment session
++ GET: /public/payments/success/ - check successful Stripe payments (Endpoint for stripe redirection)
++ GET: /public/payments/cancel/ - return payment paused message (Endpoint for stripe redirection)
 
 ### Notifications Service (Telegram):
 

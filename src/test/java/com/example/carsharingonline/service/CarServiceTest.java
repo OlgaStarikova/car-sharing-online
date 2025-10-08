@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.example.carsharingonline.dto.CarDto;
-import com.example.carsharingonline.dto.CreateCarRequestDto;
+import com.example.carsharingonline.dto.car.CarDto;
+import com.example.carsharingonline.dto.car.CreateCarRequestDto;
 import com.example.carsharingonline.exception.CarNotAvailableException;
 import com.example.carsharingonline.exception.EntityNotFoundException;
 import com.example.carsharingonline.mapper.CarMapper;
 import com.example.carsharingonline.model.Car;
 import com.example.carsharingonline.repository.CarRepository;
-import com.example.carsharingonline.service.impl.CarServiceImpl;
+import com.example.carsharingonline.service.car.impl.CarServiceImpl;
 import com.example.carsharingonline.utils.TestDataUtil;
 import java.util.List;
 import java.util.Optional;
