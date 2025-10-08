@@ -1,12 +1,12 @@
 
 package com.example.carsharingonline.controller;
 
-import com.example.carsharingonline.dto.CreatePaymentRequestDto;
-import com.example.carsharingonline.dto.PaymentDetailedResponseDto;
-import com.example.carsharingonline.dto.PaymentResponseDto;
-import com.example.carsharingonline.dto.PaymentStatusResponseDto;
+import com.example.carsharingonline.dto.payment.CreatePaymentRequestDto;
+import com.example.carsharingonline.dto.payment.PaymentDetailedResponseDto;
+import com.example.carsharingonline.dto.payment.PaymentResponseDto;
+import com.example.carsharingonline.dto.payment.PaymentStatusResponseDto;
 import com.example.carsharingonline.model.User;
-import com.example.carsharingonline.service.PaymentService;
+import com.example.carsharingonline.service.payment.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/registered/payments")
+@RequestMapping("/public/payments")
 @RequiredArgsConstructor
 public class PaymentController {
     private final PaymentService paymentService;

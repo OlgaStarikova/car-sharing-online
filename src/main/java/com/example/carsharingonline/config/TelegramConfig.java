@@ -1,6 +1,6 @@
 package com.example.carsharingonline.config;
 
-import com.example.carsharingonline.service.notification.TelegramBot;
+import com.example.carsharingonline.service.notification.telegram.TelegramBot;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

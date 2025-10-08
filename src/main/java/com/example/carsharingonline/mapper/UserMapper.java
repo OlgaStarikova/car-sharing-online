@@ -1,8 +1,8 @@
 package com.example.carsharingonline.mapper;
 
 import com.example.carsharingonline.config.MapperConfig;
-import com.example.carsharingonline.dto.UserRegistrationRequestDto;
-import com.example.carsharingonline.dto.UserResponseDto;
+import com.example.carsharingonline.dto.user.UserRegistrationRequestDto;
+import com.example.carsharingonline.dto.user.UserResponseDto;
 import com.example.carsharingonline.model.Role;
 import com.example.carsharingonline.model.User;
 import java.util.Set;

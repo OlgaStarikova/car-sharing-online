@@ -1,9 +1,9 @@
 package com.example.carsharingonline.mapper;
 
 import com.example.carsharingonline.config.MapperConfig;
-import com.example.carsharingonline.dto.CreateRentalRequestDto;
-import com.example.carsharingonline.dto.RentalDto;
-import com.example.carsharingonline.dto.ReturnRentalRequestDto;
+import com.example.carsharingonline.dto.rental.CreateRentalRequestDto;
+import com.example.carsharingonline.dto.rental.RentalDto;
+import com.example.carsharingonline.dto.rental.ReturnRentalRequestDto;
 import com.example.carsharingonline.model.Rental;
 import java.util.List;
 import org.mapstruct.Mapper;

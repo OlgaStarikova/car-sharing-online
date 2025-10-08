@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.carsharingonline.dto.CarDto;
-import com.example.carsharingonline.dto.CreateCarRequestDto;
-import com.example.carsharingonline.service.CarService;
+import com.example.carsharingonline.dto.car.CarDto;
+import com.example.carsharingonline.dto.car.CreateCarRequestDto;
+import com.example.carsharingonline.service.car.CarService;
 import com.example.carsharingonline.utils.TestDataUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;

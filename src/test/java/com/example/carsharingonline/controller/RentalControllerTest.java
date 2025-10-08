@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.carsharingonline.dto.CreateRentalRequestDto;
-import com.example.carsharingonline.dto.RentalDto;
-import com.example.carsharingonline.dto.ReturnRentalRequestDto;
+import com.example.carsharingonline.dto.rental.CreateRentalRequestDto;
+import com.example.carsharingonline.dto.rental.RentalDto;
+import com.example.carsharingonline.dto.rental.ReturnRentalRequestDto;
 import com.example.carsharingonline.model.User;
-import com.example.carsharingonline.service.RentalService;
+import com.example.carsharingonline.service.rental.RentalService;
 import com.example.carsharingonline.utils.TestDataUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
@@ -125,7 +125,7 @@ public class RentalControllerTest {
 
         // When
         MvcResult result = mockMvc.perform(
-                        post("/registered/rentals/")
+                        post("/public/rentals/")
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(result1 -> {
@@ -160,7 +160,7 @@ public class RentalControllerTest {
         Boolean isActive = true;
         Long userId = TestDataUtil.TEST_USER_ID;
         MvcResult result = mockMvc.perform(
-                        get("/registered/rentals/")
+                        get("/public/rentals/")
                                 .param("userId", String.valueOf(userId))
                                 .param("isActive", String.valueOf(isActive))
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -183,7 +183,7 @@ public class RentalControllerTest {
         Long testId = TestDataUtil.TEST_RENTAL_ID;
         when(rentalService.findById(testId)).thenReturn(expected);
         MvcResult result = mockMvc.perform(
-                        get("/registered/rentals/" + testId)
+                        get("/public/rentals/" + testId)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andReturn();
@@ -210,7 +210,7 @@ public class RentalControllerTest {
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
         MvcResult result = mockMvc.perform(
-                        put("/registered/rentals/" + testId)
+                        put("/public/rentals/" + testId)
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )

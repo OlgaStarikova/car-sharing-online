@@ -68,11 +68,10 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/swagger-ui.html",
                                         "/v3/api-docs/**",
-                                        "/v3/api-docs",
-                                        "/index.html"
+                                        "/v3/api-docs"
                                 )
                                 .permitAll()
-                                .requestMatchers("/admin/**", "/registered/**")
+                                .requestMatchers("/admin/**", "/public/**")
                                 .authenticated()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
