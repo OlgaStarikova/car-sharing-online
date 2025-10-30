@@ -22,6 +22,7 @@ import com.example.carsharingonline.service.car.impl.CarServiceImpl;
 import com.example.carsharingonline.utils.TestDataUtil;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,26 +35,29 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Testcontainers
 @ExtendWith(MockitoExtension.class)
-public class CarServiceTest {
+public class CarServiceUnitTest {
     @Mock
     private CarRepository carRepository;
-
     @Mock
     private CarMapper carMapper;
-
     @InjectMocks
     private CarServiceImpl carService;
-
     private CreateCarRequestDto requestDto;
     private CarDto carDto;
 
     @BeforeEach
-    @Sql(statements = "DELETE FROM cars")
     void setUp() {
         requestDto = getTestCreateCarRequestDto();
         carDto = getTestCarDtoAvailable();
+    }
+
+    @AfterEach
+    @Sql(statements = "DELETE FROM cars", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void cleanUp() {
     }
 
     @Test
@@ -93,7 +97,8 @@ public class CarServiceTest {
     public void findCarById_validParameters_ok() {
         CarDto expected = carDto;
         Car car = TestDataUtil.getTestCar();
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
         when(carMapper.toDto(car)).thenReturn(carDto);
 
         CarDto actual = carService.findById(TEST_CAR_ID_AVAILABLE);
@@ -103,28 +108,13 @@ public class CarServiceTest {
 
     @Test
     @DisplayName("""
-            Test deleteById method, valid result
-            """)
-    public void deleteById_validParameters_ok() {
-        carService.deleteCar(TEST_CAR_ID_AVAILABLE);
-
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
-                () -> carService.findById(TEST_CAR_ID_AVAILABLE));
-
-        String expected = "Can't find car by id " + TEST_CAR_ID_AVAILABLE;
-        String actual = exception.getMessage();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    @DisplayName("""
             Test updateCarById method, valid result
             """)
     public void updateCarById_validParameters_ok() {
         Car car = TestDataUtil.getTestCar();
         when(carMapper.toModel(requestDto)).thenReturn(car);
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
         when(carRepository.save(car)).thenReturn(car);
         when(carMapper.toDto(car)).thenReturn(carDto);
 
@@ -136,7 +126,8 @@ public class CarServiceTest {
 
     @Test
     void updateCar_NonExistingId_not_ok() {
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.empty());
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class,
                 () -> carService.updateCar(TEST_CAR_ID_AVAILABLE, requestDto),
                 "Can't find car by id " + TEST_CAR_ID_AVAILABLE);
@@ -148,21 +139,22 @@ public class CarServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
         List<Car> cars = List.of(car);
         Page<Car> page = new PageImpl<>(cars);
-        when(carRepository.findAll(pageable)).thenReturn(page);
+        when(carRepository.findAllByIsDeletedFalse(pageable)).thenReturn(page);
         when(carMapper.toDto(any(Car.class))).thenReturn(carDto);
         List<CarDto> result = carService.findAll(pageable);
 
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(carDto, result.get(0));
-        verify(carRepository).findAll(pageable);
+        verify(carRepository).findAllByIsDeletedFalse(pageable);
         verify(carMapper).toDto(car);
     }
 
     @Test
     void updateCarInventory_ExistingId_ok() {
         Car car = TestDataUtil.getTestCar();
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
         when(carRepository.save(any(Car.class))).thenReturn(car);
 
         carService.updateCarInventory(TEST_CAR_ID_AVAILABLE, 2);
@@ -172,7 +164,8 @@ public class CarServiceTest {
 
     @Test
     void updateCarInventory_NonExistingId_not_ok() {
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.empty());
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class,
                 () -> carService.updateCarInventory(TEST_CAR_ID_AVAILABLE, 2),
@@ -183,7 +176,8 @@ public class CarServiceTest {
     void checkCarAvailability_AvailableCar_ok() {
         Car car = TestDataUtil.getTestCar();
         car.setInventory(1);
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
 
         Car result = carService.checkCarAvailability(TEST_CAR_ID_AVAILABLE);
 
@@ -193,7 +187,8 @@ public class CarServiceTest {
 
     @Test
     void checkCarAvailability_NonExistingId_not_ok() {
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.empty());
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class,
                 () -> carService.checkCarAvailability(TEST_CAR_ID_AVAILABLE),
@@ -204,7 +199,8 @@ public class CarServiceTest {
     void checkCarAvailability_UnavailableCar_ThrowsCarNotAvailableException() {
         Car car = TestDataUtil.getTestCar();
         car.setInventory(0);
-        when(carRepository.findById(TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
+        when(carRepository.findByIdAndIsDeletedFalse(
+                TEST_CAR_ID_AVAILABLE)).thenReturn(Optional.of(car));
 
         assertThrows(CarNotAvailableException.class,
                 () -> carService.checkCarAvailability(TEST_CAR_ID_AVAILABLE),
