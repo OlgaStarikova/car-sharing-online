@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <!-- Основной шаблон без цвета (для файла) -->
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+
+        <!-- Цветной шаблон (только для консоли) -->
+        <Property name="COLORED_LOG_PATTERN">%highlight{[%d{HH:mm:ss}] %-5level %logger{36} - %msg%n}{FATAL=red blink, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, TRACE=white}</Property>
+
+        <!-- Пути к логам -->
+        <Property name="LOG_DIR">logs</Property>
+        <Property name="LOG_FILE">${LOG_DIR}/app.log</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Консоль -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${COLORED_LOG_PATTERN}"/>
+        </Console>
+
+        <!-- Файл з ролінгом -->
+        <RollingFile name="FileLogger"
+                     fileName="${LOG_FILE}"
+                     filePattern="${LOG_DIR}/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <!-- Кожен день новий файл -->
+                <TimeBasedTriggeringPolicy/>
+                <!-- Якщо файл більше 10 MB -->
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Сервіси -->
+        <Logger name="com.example.car-sharing-online.service" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileLogger"/>
+        </Logger>
+
+        <!-- Платежі -->
+        <Logger name="com.example.car-sharing-online.service.payment" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileLogger"/>
+        </Logger>
+
+        <!-- Stripe інтеграція -->
+        <Logger name="com.example.car-sharing-online.service.payment.stripe" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileLogger"/>
+        </Logger>
+
+        <!-- Контролери -->
+        <Logger name="com.example.car-sharing-online.controller" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileLogger"/>
+        </Logger>
+
+        <!-- Root logger -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileLogger"/>
+        </Root>
+    </Loggers>
+</Configuration>

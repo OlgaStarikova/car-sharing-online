@@ -13,11 +13,11 @@ import com.example.carsharingonline.model.Role;
 import com.example.carsharingonline.model.User;
 import com.example.carsharingonline.repository.PaymentRepository;
 import com.example.carsharingonline.repository.RentalRepository;
-import com.example.carsharingonline.service.payment.PaymentService;
-import com.example.carsharingonline.service.payment.provider.stripe.StripeService;
+import com.example.carsharingonline.service.notification.telegram.TelegramNotificationService;
 import com.example.carsharingonline.service.notification.template.NotificationTemplates;
 import com.example.carsharingonline.service.notification.template.NotificationType;
-import com.example.carsharingonline.service.notification.telegram.TelegramNotificationService;
+import com.example.carsharingonline.service.payment.PaymentService;
+import com.example.carsharingonline.service.payment.provider.stripe.StripeService;
 import com.example.carsharingonline.service.payment.strategy.CalculationService;
 import com.example.carsharingonline.service.payment.strategy.CalculationServiceStrategy;
 import com.stripe.Stripe;
@@ -28,10 +28,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -47,10 +49,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentDetailedResponseDto> getAll(User user, Long id) {
+        log.debug("Preparing to get all payments for user={}", user.getEmail());
         if (!user.getRoles()
                 .stream()
                 .anyMatch(role -> role.getRole() == Role.RoleName.MANAGER)) {
             if (!Objects.equals(user.getId(), id)) {
+                log.error("❌ Access denied: user {} (id={}) tried to access payments of user {}",
+                        user.getEmail(), user.getId(), id);
                 throw new AccessDeniedException("This user with id: " + user.getId()
                         + " can't see payments of other users");
             }
